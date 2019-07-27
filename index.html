@@ -11,9 +11,22 @@
   <div class="app">
     <section class="hero-section">
       <header class="page-header">
-        <h2 class="country">Poland</h2>
-        <h3 class="city">Koszalin</h3>
-        <p class="temperature"><span class="icon">20&#8451;</span></p>
+        
+        <h2 class="country"></h2>
+        <h3 class="city"></h3>
+        <div class="test">
+          <canvas class="icon" id="icon" width="60" height="60"></canvas>
+          <p class="temperature"></p>
+        </div>
+        <!-- <form name="form" class="page-form"> -->
+          <div class="form">
+            <label for="city">City: </label>
+            <input type="text" id="city" placeholder="e.g Warsaw">
+            <button class="btn" type="submit">Send</button>
+          </div>
+        <!-- </form> -->
+      
+
       </header>
       <div class="hour-box"></div>
       <div class="hour-box"></div>
@@ -93,5 +106,8 @@
         </div>
   </section>
   </div>
+  <script src="skycons.js"></script>
+  <script src="currentWeather.js"></script>
+  <script src="icon.js"></script>
 </body>
 </html
