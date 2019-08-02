@@ -6,20 +6,39 @@ const btn = document.querySelector('.btn');
 
 async function getCurrentWeather() {
   const cords = await getLocation();
-  const lat = cords[0];
-  const lon = cords[1];
+  console.log(cords)
+  // const lat = cords[0];
+  // const lon = cords[1];
+  const [ lat, lon ] = cords;
   printLocation();
-  const cityName = cords[2];
-  // console.log(cityName);
-  const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/cdb3747d118e740b97f925964f2b5efe/${lat},${lon}?units=auto`
+  // const cityName = cords[2];
+  
+  //2019-08-02T21:20:32
+  const time = new Date();
+  const year = time.getFullYear();
+  const month = time.getMonth() + 1;
+  const day = time.getDate();
+  const hours = time.getHours();
+  const minuts = time.getMinutes() + 1;
+  const seconds = time.getSeconds() + 1;
+  const str = `${year}-${leadingZero(time.getMonth()+ 1)}-${leadingZero(time.getDate())}T${leadingZero(hours)}:${leadingZero(minuts)}:${leadingZero(seconds)}`;
+  console.log(str)
+  
+  const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon},${str}?exclude=minutely,alerts&units=si`
   const response = await fetch(url);
   const data =  await response.json();
-  const { currently } = data;
-  // console.log(currently)
-  return { currently };
+  console.log(data)
+  
+  return data;
 }
 
-// getWeather();
+
+//get zero if need
+function leadingZero(i) {
+
+  return (i < 10)? '0'+i : i;
+}
+// // getWeather();
 
 
 async function getLocation() {
@@ -38,7 +57,7 @@ async function getLocation() {
  
 };
 
-// getLocation();
+// // getLocation();
 
 
  function getCity() {
@@ -57,14 +76,18 @@ async function printLocation() {
 
 async function showWeather() {
   const data = await getCurrentWeather();
-  console.log(data.currently);
+  // console.log(data.currently);
   const celcius = '\&#8451;'
   //santize html?
   document.querySelector('.temperature').innerHTML = `<p>${data.currently.temperature.toFixed(0)}${celcius}</p>`
-  document.querySelector('.icon')
+  // document.querySelector('.icon')
+  document.querySelector('.hour-box-1').innerHTML = `<p>${data.hourly.data[0].temperature.toFixed(0)}${celcius}`;
+
 }
 
 
+
+// LISTENERS
 
 btn.addEventListener('click', showWeather, false);
 
