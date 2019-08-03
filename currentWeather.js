@@ -14,17 +14,11 @@ async function getCurrentWeather() {
   // const cityName = cords[2];
   
   //2019-08-02T21:20:32
-  const time = new Date();
-  const year = time.getFullYear();
-  const month = time.getMonth() + 1;
-  const day = time.getDate();
-  const hours = time.getHours();
-  const minuts = time.getMinutes() + 1;
-  const seconds = time.getSeconds() + 1;
-  const str = `${year}-${leadingZero(time.getMonth()+ 1)}-${leadingZero(time.getDate())}T${leadingZero(hours)}:${leadingZero(minuts)}:${leadingZero(seconds)}`;
+  
+  const str = await getCurrentTime(leadingZero);
   console.log(str)
   
-  const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon},${str}?exclude=minutely,alerts&units=si`
+  const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon},${str}?exclude=minutely,alerts&units=si`;
   const response = await fetch(url);
   const data =  await response.json();
   console.log(data)
@@ -32,6 +26,23 @@ async function getCurrentWeather() {
   return data;
 }
 
+/**
+ * 
+ * @param {leadingZeros function} fn 
+ * @return current time in format YYYY-MM-DDTHH:MM:SS
+ */
+
+function getCurrentTime(fn) {
+  const time = new Date();
+  const year = time.getFullYear();
+  const month = time.getMonth() + 1;
+  const day = time.getDate();
+  const hours = time.getHours();
+  const minuts = time.getMinutes() + 1;
+  const seconds = time.getSeconds() + 1;
+
+  return `${year}-${fn(time.getMonth()+ 1)}-${fn(time.getDate())}T${fn(hours)}:${fn(minuts)}:${fn(seconds)}`
+};
 
 //get zero if need
 function leadingZero(i) {
