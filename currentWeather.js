@@ -6,17 +6,15 @@ const btn = document.querySelector('.btn');
 
 async function getCurrentWeather() {
   const cords = await getLocation();
-  // console.log(cords)
-  // const lat = cords[0];
-  // const lon = cords[1];
+ 
   const [ lat, lon ] = cords;
   printLocation();
-  // const cityName = cords[2];
+ 
   
   //2019-08-02T21:20:32
   
   const str = await getCurrentTime(leadingZero);
-  // console.log(str)
+  
   
   const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon}?units=si`
   // const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon},${str}?exclude=minutely,alerts&units=si`;
@@ -97,6 +95,11 @@ function checkHour() {
   return hour;
 }
 
+/**
+ * 
+ * @param {Obj with weather data} arr 
+ * @return weather data with next seven hours
+ */
 async function nextHours(arr) {
   let indexStart = await checkHour();
   let indexEnd = (indexStart + 7) % 49;
@@ -113,18 +116,23 @@ function returnWeatherData(data) {
   return `${data}`;
 };
 
+function returnWeatherTemp(data, celcius) {
+  return `${data}${celcius}`;
+};
+
 function renderTimeIntoHTML(weatherData) {
-  // const time = new Date();
   const timeSpanElements = Array.from(document.querySelectorAll('.hour-box-time'));
   timeSpanElements.forEach((span, index) => {
     span.textContent = returnWeatherData(weatherData[index].time);
   });
 };
+    
 
 function renderTempIntoHTML(weatherData) {
+  const celcius = '\&#8451;'
   const temperatureSpanElements = Array.from(document.querySelectorAll('.hour-box-temp'));
   temperatureSpanElements.forEach((span, index) => {
-    span.textContent = returnWeatherData(weatherData[index].temperature);
+    span.innerHTML = returnWeatherTemp(weatherData[index].temperature.toFixed(0), celcius);
   });
 };
 
@@ -135,7 +143,7 @@ async function showWeather() {
   const response = await getCurrentWeather();
   // console.log(response)
   const hourlyWeather = response.hourly.data; // data from api
-  
+  console.log(response)
   const nextSevenHoursWeather = await nextHours(hourlyWeather);
   console.log(nextSevenHoursWeather)
   
