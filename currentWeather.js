@@ -6,7 +6,7 @@ const btn = document.querySelector('.btn');
 
 async function getCurrentWeather() {
   const cords = await getLocation();
-  console.log(cords)
+  // console.log(cords)
   // const lat = cords[0];
   // const lon = cords[1];
   const [ lat, lon ] = cords;
@@ -16,12 +16,13 @@ async function getCurrentWeather() {
   //2019-08-02T21:20:32
   
   const str = await getCurrentTime(leadingZero);
-  console.log(str)
+  // console.log(str)
   
-  const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon},${str}?exclude=minutely,alerts&units=si`;
+  const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon}?units=si`
+  // const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon},${str}?exclude=minutely,alerts&units=si`;
   const response = await fetch(url);
   const data =  await response.json();
-  console.log(data)
+  // console.log(data)
   
   return data;
 }
@@ -55,7 +56,7 @@ function leadingZero(i) {
 async function getLocation() {
   let arr = [];
   const city = await getCity();
-  const response = await fetch(`https://us1.locationiq.com/v1/search.php?key=116c426fcd7312&city=${city}&format=json`);
+  const response = await fetch(`https://cors-anywhere.herokuapp.com/https://us1.locationiq.com/v1/search.php?key=116c426fcd7312&city=${city}&format=json`);
   const position = await response.json()
   const latitude = position[0].lat;
   const longitude = position[0].lon;
@@ -85,14 +86,81 @@ async function printLocation() {
 
 }
 
+/**
+ * @return hour
+ */
+
+function checkHour() {
+  const time = new Date();
+  const hour = time.getHours();
+  
+  return hour;
+}
+
+async function nextHours(arr) {
+  let indexStart = await checkHour();
+  let indexEnd = (indexStart + 7) % 49;
+
+  if(indexStart <= indexEnd)
+	  return arr.slice(indexStart, indexEnd);
+  else
+	  return arr.slice(indexStart, arr.length).concat(arr.slice(0,indexEnd));
+}
+
+//returnTemp
+
+function returnWeatherData(data) {
+  return `${data}`;
+};
+
+function renderTimeIntoHTML(weatherData) {
+  // const time = new Date();
+  const timeSpanElements = Array.from(document.querySelectorAll('.hour-box-time'));
+  timeSpanElements.forEach((span, index) => {
+    span.textContent = returnWeatherData(weatherData[index].time);
+  });
+};
+
+function renderTempIntoHTML(weatherData) {
+  const temperatureSpanElements = Array.from(document.querySelectorAll('.hour-box-temp'));
+  temperatureSpanElements.forEach((span, index) => {
+    span.textContent = returnWeatherData(weatherData[index].temperature);
+  });
+};
+
+
+
 async function showWeather() {
-  const data = await getCurrentWeather();
-  // console.log(data.currently);
+  // const divs = Array.from(document.querySelectorAll('.hour-box'));
+  const response = await getCurrentWeather();
+  // console.log(response)
+  const hourlyWeather = response.hourly.data; // data from api
+  
+  const nextSevenHoursWeather = await nextHours(hourlyWeather);
+  console.log(nextSevenHoursWeather)
+  
+
+ renderTempIntoHTML(nextSevenHoursWeather);
+ renderTimeIntoHTML(nextSevenHoursWeather);
+ 
+    
+
+    
+  // console.log(test)
+  // const currentHour = await checkHour();
+  // console.log();
+
+  
+  
+  
+  
+  
+  // console.log(one,two);
   const celcius = '\&#8451;'
   //santize html?
-  document.querySelector('.temperature').innerHTML = `<p>${data.currently.temperature.toFixed(0)}${celcius}</p>`
+  document.querySelector('.temperature').innerHTML = `<p>${response.currently.temperature.toFixed(0)}${celcius}</p>`
   // document.querySelector('.icon')
-  document.querySelector('.hour-box-1').innerHTML = `<p>${data.hourly.data[0].temperature.toFixed(0)}${celcius}`;
+  // document.querySelector('.hour-box-temp').innerHTML = `<p>${response.hourly.data[0].temperature.toFixed(0)}${celcius}</p>`;
 
 }
 
@@ -101,4 +169,3 @@ async function showWeather() {
 // LISTENERS
 
 btn.addEventListener('click', showWeather, false);
-
