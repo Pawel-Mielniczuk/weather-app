@@ -110,7 +110,7 @@ async function nextHours(arr) {
 	  return arr.slice(indexStart, arr.length).concat(arr.slice(0,indexEnd));
 }
 
-//returnTemp
+//returnTime
 
 function returnWeatherData(data) {
   return `${data}`;
@@ -120,16 +120,33 @@ function returnWeatherTemp(data, celcius) {
   return `${data}${celcius}`;
 };
 
-// function leadingZero(i) {
 
-//   return (i < 10)? '0'+i : i;
-// }
+/**
+ * 
+ * @param {milliseconds from Date Obj} ms 
+ */
 
+ //? Jedna funckja do konwersji czasu, czy...
 function convertToHour(ms) {
   const date = new Date(ms*1000);
 // Hours part from the timestamp
   const hours = date.getHours();
+  
   return hours;
+}
+
+function convertToDays(ms) {
+  const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const date = new Date(ms * 1000);
+  const day = date.getDay();
+  return daysOfWeek[day];
+}
+
+function convertToDaysOfMonth(ms) {
+  const date = new Date(ms * 1000);
+  const daysOfMonth = date.getDate();
+
+  return daysOfMonth
 }
 
 function renderTimeIntoHTML(weatherData) {
@@ -141,7 +158,6 @@ function renderTimeIntoHTML(weatherData) {
     
 
 function renderTempIntoHTML(weatherData) {
-  const celcius = '\&#8451;'
   const temperatureSpanElements = Array.from(document.querySelectorAll('.hour-box-temp'));
   temperatureSpanElements.forEach((span, index) => {
     span.innerHTML = returnWeatherTemp(weatherData[index].temperature.toFixed(0), celcius);
@@ -151,10 +167,6 @@ function renderTempIntoHTML(weatherData) {
 /**
  * Render MAX TEMP
  */
-
- function getMaxTemp(maxTemp) {
-  return maxTemp;
- };
 
  function renderDailyMaxTemp(weatherData) {
   
@@ -168,12 +180,7 @@ function renderTempIntoHTML(weatherData) {
   * Render MIn TEMP
   */
 
- function getMinTemp(lowTemp) {
-  return lowTemp;
- };
-
  function renderDailyMinTemp(weatherData) {
-  const celcius = '\&#8451;'
   const mintempSpan = document.querySelectorAll('.min-temp');
   mintempSpan.forEach((min, index) => {
     min.innerHTML = returnWeatherTemp(weatherData[index].temperatureLow.toFixed(0),celcius);
@@ -183,6 +190,24 @@ function renderTempIntoHTML(weatherData) {
  /**
   * Render days
   */
+
+ function renderDayOfWeek(weatherData) {
+  const dayOfWeekSpan = document.querySelectorAll('.day-of-week');
+  dayOfWeekSpan.forEach((day, index) => {
+    day.textContent = convertToDaysOfMonth(weatherData[index].time);
+  });
+ };
+
+ /**
+  * Render days of month
+  */
+
+ function renderDayOfMonth(weatherData) {
+  const dayOfMonthSpan = document.querySelectorAll('.date');
+  dayOfMonthSpan.forEach((date, index) => {
+    date.textContent = convertToDays(weatherData[index].time);
+  });
+ };
 
 
 async function showWeather() {
@@ -198,6 +223,8 @@ async function showWeather() {
   renderTimeIntoHTML(nextSevenHoursWeather);
   renderDailyMaxTemp(dailyWeather);
   renderDailyMinTemp(dailyWeather);
+  renderDayOfWeek(dailyWeather);
+  renderDayOfMonth(dailyWeather);
     
 //Days condition
 
