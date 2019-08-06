@@ -3,6 +3,7 @@
 const apiKey = 'cdb3747d118e740b97f925964f2b5efe';
 const locationKey = '116c426fcd7312';
 const btn = document.querySelector('.btn');
+const celcius = '\&#8451;'
 
 async function getCurrentWeather() {
   const cords = await getLocation();
@@ -92,7 +93,6 @@ function checkHour() {
   const time = new Date();
   const hour = time.getHours();
   
-  return hour;
 }
 
 /**
@@ -120,10 +120,22 @@ function returnWeatherTemp(data, celcius) {
   return `${data}${celcius}`;
 };
 
+// function leadingZero(i) {
+
+//   return (i < 10)? '0'+i : i;
+// }
+
+function convertToHour(ms) {
+  const date = new Date(ms*1000);
+// Hours part from the timestamp
+  const hours = date.getHours();
+  return hours;
+}
+
 function renderTimeIntoHTML(weatherData) {
   const timeSpanElements = Array.from(document.querySelectorAll('.hour-box-time'));
   timeSpanElements.forEach((span, index) => {
-    span.textContent = returnWeatherData(weatherData[index].time);
+    span.textContent = returnWeatherData(convertToHour(weatherData[index].time));
   });
 };
     
@@ -136,32 +148,60 @@ function renderTempIntoHTML(weatherData) {
   });
 };
 
+/**
+ * Render MAX TEMP
+ */
+
+ function getMaxTemp(maxTemp) {
+  return maxTemp;
+ };
+
+ function renderDailyMaxTemp(weatherData) {
+  
+  const maxtempSpan = document.querySelectorAll('.max-temp');
+  maxtempSpan.forEach((max, index) => {
+    max.innerHTML = returnWeatherTemp(weatherData[index].temperatureHigh.toFixed(0),celcius);
+  });
+ };
+
+ /**
+  * Render MIn TEMP
+  */
+
+ function getMinTemp(lowTemp) {
+  return lowTemp;
+ };
+
+ function renderDailyMinTemp(weatherData) {
+  const celcius = '\&#8451;'
+  const mintempSpan = document.querySelectorAll('.min-temp');
+  mintempSpan.forEach((min, index) => {
+    min.innerHTML = returnWeatherTemp(weatherData[index].temperatureLow.toFixed(0),celcius);
+  });
+ };
+
+ /**
+  * Render days
+  */
 
 
 async function showWeather() {
-  // const divs = Array.from(document.querySelectorAll('.hour-box'));
   const response = await getCurrentWeather();
-  // console.log(response)
-  const hourlyWeather = response.hourly.data; // data from api
-  console.log(response)
+  const hourlyWeather = response.hourly.data; //?
+  console.log(response);
+  const dailyWeather = response.daily.data; // ?
   const nextSevenHoursWeather = await nextHours(hourlyWeather);
-  console.log(nextSevenHoursWeather)
+  // console.log(nextSevenHoursWeather)
   
-
- renderTempIntoHTML(nextSevenHoursWeather);
- renderTimeIntoHTML(nextSevenHoursWeather);
- 
+  
+  renderTempIntoHTML(nextSevenHoursWeather);
+  renderTimeIntoHTML(nextSevenHoursWeather);
+  renderDailyMaxTemp(dailyWeather);
+  renderDailyMinTemp(dailyWeather);
     
+//Days condition
 
-    
-  // console.log(test)
-  // const currentHour = await checkHour();
-  // console.log();
 
-  
-  
-  
-  
   
   // console.log(one,two);
   const celcius = '\&#8451;'
