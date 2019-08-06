@@ -216,7 +216,7 @@ async function showWeather() {
   console.log(response);
   const dailyWeather = response.daily.data; // ?
   const nextSevenHoursWeather = await nextHours(hourlyWeather);
-  // console.log(nextSevenHoursWeather)
+  
   
   
   renderTempIntoHTML(nextSevenHoursWeather);
