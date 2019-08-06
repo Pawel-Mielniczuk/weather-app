@@ -20,38 +20,130 @@
         </div>
         <!-- <form name="form" class="page-form"> -->
           <div class="form">
-            <label for="city">City: </label>
-            <input type="text" id="city" placeholder="e.g Warsaw">
+            <label for="city">
+              <span class="city-name">City: </span>
+              <input type="text" id="city" placeholder="e.g Warsaw" class="input">
+            </label>
             <button class="btn" type="submit">Send</button>
           </div>
         <!-- </form> -->
       
 
       </header>
-      <div class="hour-box"></div>
-      <div class="hour-box"></div>
-      <div class="hour-box"></div>
-      <div class="hour-box"></div>
-      <div class="hour-box"></div>
-      <div class="hour-box"></div>
-      <div class="hour-box"></div>
+      <div class="hour-box">
+        <span class="hour-box-time">5am</span>
+        <span class="hour-box-icon">
+          <canvas id="icon1" width="60" height="60"></canvas>
+        </span>
+        <span class="hour-box-temp">14</span>
+      </div>
+      <div class="hour-box">
+        <span class="hour-box-time">5am</span>
+        <span class="hour-box-icon">
+          <canvas id="icon1" width="60" height="60"></canvas>
+        </span>
+        <span class="hour-box-temp">14</span>
+      </div>
+      <div class="hour-box">
+        <span class="hour-box-time">5am</span>
+        <span class="hour-box-icon">
+          <canvas id="icon1" width="60" height="60"></canvas>
+        </span>
+        <span class="hour-box-temp">14</span>
+      </div>
+      <div class="hour-box">
+        <span class="hour-box-time">5am</span>
+        <span class="hour-box-icon">
+          <canvas id="icon1" width="60" height="60"></canvas>
+        </span>
+        <span class="hour-box-temp">14</span>
+      </div>
+      <div class="hour-box">
+        <span class="hour-box-time">5am</span>
+        <span class="hour-box-icon">
+          <canvas id="icon1" width="60" height="60"></canvas>
+        </span>
+        <span class="hour-box-temp">14</span>
+      </div>
+      <div class="hour-box">
+        <span class="hour-box-time">5am</span>
+        <span class="hour-box-icon">
+          <canvas id="icon1" width="60" height="60"></canvas>
+        </span>
+        <span class="hour-box-temp">14</span>
+      </div>
+      <div class="hour-box">
+        <span class="hour-box-time">5am</span>
+        <span class="hour-box-icon">
+          <canvas id="icon1" width="60" height="60"></canvas>
+        </span>
+        <span class="hour-box-temp">14</span>
+      </div>
     </section>
     
   <section class="days-weather">
-    <div class="days"></div>
-    <div class="days"></div>
-    <div class="days"></div>
-    <div class="days"></div>
-    <div class="days"></div>
-    <div class="days"></div>
-    <div class="days"></div>
-    <div class="days"></div>
+    <div class="days">
+      <span class="day-of-week">Day</span>
+      <span class="date">27th</span>
+      <span class="icon">Icon</span>
+      <span class="max-temp">Max Temp</span>
+      <span class="min-temp">MIn Temp</span>
+    </div>
+    <div class="days">
+      <span class="day-of-week">Day</span>
+      <span class="date">27th</span>
+      <span class="icon">Icon</span>
+      <span class="max-temp">Max Temp</span>
+      <span class="min-temp">MIn Temp</span>
+    </div>
+    <div class="days">
+      <span class="day-of-week">Day</span>
+      <span class="date">27th</span>
+      <span class="icon">Icon</span>
+      <span class="max-temp">Max Temp</span>
+      <span class="min-temp">MIn Temp</span>
+    </div>
+    <div class="days">
+      <span class="day-of-week">Day</span>
+      <span class="date">27th</span>
+      <span class="icon">Icon</span>
+      <span class="max-temp">Max Temp</span>
+      <span class="min-temp">MIn Temp</span>
+    </div>
+    <div class="days">
+      <span class="day-of-week">Day</span>
+      <span class="date">27th</span>
+      <span class="icon">Icon</span>
+      <span class="max-temp">Max Temp</span>
+      <span class="min-temp">MIn Temp</span>
+    </div>
+    <div class="days">
+      <span class="day-of-week">Day</span>
+      <span class="date">27th</span>
+      <span class="icon">Icon</span>
+      <span class="max-temp">Max Temp</span>
+      <span class="min-temp">MIn Temp</span>
+    </div>
+    <div class="days">
+      <span class="day-of-week">Day</span>
+      <span class="date">27th</span>
+      <span class="icon">Icon</span>
+      <span class="max-temp">Max Temp</span>
+      <span class="min-temp">MIn Temp</span>
+    </div>
+    <div class="days">
+      <span class="day-of-week">Day</span>
+      <span class="date">27th</span>
+      <span class="icon">Icon</span>
+      <span class="max-temp">Max Temp</span>
+      <span class="min-temp">MIn Temp</span>
+    </div>
   </section>
 
   <section class="weather-condition">
       <div class="condition-wrapper">
           <div class="single-chart">
-            <p class="condition-description">Perception</p>
+            <span class="condition-description">Perception</span>
             <svg viewBox="0 0 36 36" class="circular-chart orange">
               <path class="circle-bg"
                 d="M18 2.0845
@@ -69,7 +161,7 @@
           </div>
           
           <div class="single-chart humidity">
-              <p class="condition-description">Perception</p>
+              <span class="condition-description">Humidity</span>
             <svg viewBox="0 0 36 36" class="circular-chart green">
               <path class="circle-bg"
                 d="M18 2.0845
@@ -87,7 +179,7 @@
           </div>
         
           <div class="single-chart">
-              <p class="condition-description">test</p>
+              <span class="condition-description">test</span>
             <svg viewBox="0 0 36 36" class="circular-chart blue">
               <path class="circle-bg"
                 d="M18 2.0845
