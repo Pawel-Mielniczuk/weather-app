@@ -214,7 +214,7 @@ function renderTempIntoHTML(weatherData) {
   */
 
   
- function renderHourlyIntoHTML(weatherData) {
+ function renderHourlyIconIntoHTML(weatherData) {
   const iconCanvasElements = Array.from(document.querySelectorAll('.icon1'));
   var skycons = new Skycons({"color": "pink"});
   iconCanvasElements.forEach((canvas, index) => {
