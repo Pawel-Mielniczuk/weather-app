@@ -192,7 +192,7 @@ function renderTempIntoHTML(weatherData) {
   */
 
  function renderDayOfWeek(weatherData) {
-  const dayOfWeekSpan = document.querySelectorAll('.day-of-week');
+  const dayOfWeekSpan = document.querySelectorAll('.date');
   dayOfWeekSpan.forEach((day, index) => {
     day.textContent = convertToDaysOfMonth(weatherData[index].time);
   });
@@ -203,15 +203,43 @@ function renderTempIntoHTML(weatherData) {
   */
 
  function renderDayOfMonth(weatherData) {
-  const dayOfMonthSpan = document.querySelectorAll('.date');
+  const dayOfMonthSpan = document.querySelectorAll('.day-of-week');
   dayOfMonthSpan.forEach((date, index) => {
     date.textContent = convertToDays(weatherData[index].time);
   });
  };
 
+ /**
+  * icons
+  */
+
+  
+ function renderHourlyIntoHTML(weatherData) {
+  const iconCanvasElements = Array.from(document.querySelectorAll('.icon1'));
+  var skycons = new Skycons({"color": "pink"});
+  iconCanvasElements.forEach((canvas, index) => {
+	skycons.add(document.getElementsByClassName("icon1")[index], weatherData[index].icon);
+  });
+  skycons.play();
+};
+
+function renderDailyIconIntoHTML(weatherData) {
+  const iconCanvasElements = Array.from(document.querySelectorAll('.icon2'));
+  var skycons = new Skycons({"color": "pink"});
+  iconCanvasElements.forEach((canvas, index) => {
+	skycons.add(document.getElementsByClassName("icon2")[index], weatherData[index].icon);
+  });
+  skycons.play();
+};
+
+
+
+
+
 
 async function showWeather() {
   const response = await getCurrentWeather();
+  const currentWeather = response.currently;
   const hourlyWeather = response.hourly.data; //?
   console.log(response);
   const dailyWeather = response.daily.data; // ?
@@ -225,6 +253,11 @@ async function showWeather() {
   renderDailyMinTemp(dailyWeather);
   renderDayOfWeek(dailyWeather);
   renderDayOfMonth(dailyWeather);
+  renderHourlyIconIntoHTML(hourlyWeather);
+  renderDailyIconIntoHTML(dailyWeather);
+
+  
+  
     
 //Days condition
 
