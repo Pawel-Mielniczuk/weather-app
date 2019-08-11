@@ -27,7 +27,7 @@ body {
   padding-bottom: 6rem;
   position: relative;
   /* border:1px solid red; */
-  background: url('./tlo.jpg') no-repeat center center fixed;
+  background: url('./tlo.jpg') no-repeat top fixed;
   background-size: cover;
 }
 
@@ -70,6 +70,8 @@ body {
   font-weight: 300;
   color:white;
   font-size: 16px;
+  outline: none;
+  font-size: 1.5rem;
 }
 
 .btn {
@@ -92,16 +94,10 @@ body {
 }
 
 
-.form input:focus {
-  outline: none;
-  /* box-shadow: 0 5px 20px -8px rgba(255,255,255, .3); */
-}
-
 .label-name {
+  font-size: 1.9rem;
 }
 
-.city-name {
-}
 
 .hour-box {
   height: 200px;

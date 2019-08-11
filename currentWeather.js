@@ -1,9 +1,10 @@
-// https://locationiq.com/docs
+'use strict';
 
 const apiKey = 'cdb3747d118e740b97f925964f2b5efe';
 const locationKey = '116c426fcd7312';
 const btn = document.querySelector('.btn');
 const celcius = '&#8451;';
+const input = document.querySelector('.input');
 
 async function getCurrentWeather() {
   const cords = await getLocation();
@@ -12,6 +13,8 @@ async function getCurrentWeather() {
   printLocation();
 
   //2019-08-02T21:20:32
+
+  const str = await getCurrentTime(leadingZero);
 
   const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon}?units=si`;
   const response = await fetch(url);
@@ -40,28 +43,31 @@ function getCurrentTime(fn) {
   )}:${fn(minuts)}:${fn(seconds)}`;
 }
 
-//get zero if need
 function leadingZero(hour) {
-  return hour < 10 ? '0' + i : i;
+  return hour < 10 ? '0' + hour : hour;
 }
 
 async function getLocation() {
   let arr = [];
-  const city = getCity();
+  const city = await getCity();
   const response = await fetch(
     `https://cors-anywhere.herokuapp.com/https://us1.locationiq.com/v1/search.php?key=116c426fcd7312&city=${city}&format=json`
   );
   const position = await response.json();
+  const latitude = position[0].lat;
+  const longitude = position[0].lon;
+  const cityName = position[0].display_name;
 
-  return {
-    lat: position[0].lat,
-    lon: position[0].lon,
-    display_name: position[0].display_name
-  };
+  arr[0] = latitude;
+  arr[1] = longitude;
+  arr[2] = cityName;
+  return arr;
 }
 
+
 function getCity() {
-  return document.getElementById('city').value;
+  const inputValue = document.getElementById('city').value;
+  return inputValue;
 }
 
 async function printLocation() {
@@ -87,14 +93,13 @@ function checkHour() {
  * @return weather data with next seven hours
  */
 async function nextHours(arr) {
-  let indexStart = checkHour();
+  let indexStart = await checkHour();
   let indexEnd = (indexStart + 7) % 49;
 
   if (indexStart <= indexEnd) return arr.slice(indexStart, indexEnd);
   else return arr.slice(indexStart, arr.length).concat(arr.slice(0, indexEnd));
 }
 
-//returnTime
 
 function returnWeatherData(data) {
   return `${data}`;
@@ -111,7 +116,6 @@ function returnWeatherTemp(data, celcius) {
 
 function convertToHour(ms) {
   const date = new Date(ms * 1000);
-  // Hours part from the timestamp
   const hours = date.getHours();
 
   return hours;
@@ -205,6 +209,11 @@ function renderDayOfMonth(weatherData) {
 }
 
 /**
+ * sunrise function
+ * @param {*} weatherData
+ */
+
+/**
  * icons
  */
 
@@ -218,6 +227,7 @@ function renderHourlyIconIntoHTML(weatherData) {
     );
   });
   skycons.play();
+  skycons.pause();
 }
 
 function renderDailyIconIntoHTML(weatherData) {
@@ -230,10 +240,23 @@ function renderDailyIconIntoHTML(weatherData) {
     );
   });
   skycons.play();
-}
+  skycons.pause();
+};
+
+function handleEnter(e) {
+  if (e.which === 13) {
+    showWeather();
+  }
+};
+
 
 async function showWeather() {
+
+  if (input.value.length === 0) return;
+
   const response = await getCurrentWeather();
+  const currentWeather = response.currently;
+  console.log(response);
   const hourlyWeather = response.hourly.data; //?
   const dailyWeather = response.daily.data; // ?
   const nextSevenHoursWeather = await nextHours(hourlyWeather);
@@ -246,16 +269,22 @@ async function showWeather() {
   renderDayOfMonth(dailyWeather);
   renderHourlyIconIntoHTML(hourlyWeather);
   renderDailyIconIntoHTML(dailyWeather);
+  showVisibility(currentWeather.visibility);
+  showWind(currentWeather.windSpeed);
 
-  //Days condition
-
-  const celcius = '&#8451;';
+  input.value = '';
+  input.focus();
   //santize html?
   document.querySelector(
     '.temperature'
   ).innerHTML = `<p>${response.currently.temperature.toFixed(0)}${celcius}</p>`;
+
 }
+
+
 
 // LISTENERS
 
 btn.addEventListener('click', showWeather, false);
+input.addEventListener('keypress', handleEnter, false);
+

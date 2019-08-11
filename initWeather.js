@@ -1,5 +1,4 @@
-// const svg = document.querySelector('.circle');
-// svg.setAttribute('stroke-dasharray', '50, 100');
+'use strict';
 
 if ('geolocation' in navigator) {
   navigator.geolocation.getCurrentPosition(function (position) {
@@ -60,6 +59,8 @@ function showWind(wind) {
 };
 
 
+
+
 async function getInitWeather(lat, lon) {
   const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon}?units=si`;
   const response = await fetch(url);
@@ -83,7 +84,7 @@ async function showInitWeather(weatherData) {
   renderHourlyIconIntoHTML(hourlyWeather);
   renderDailyIconIntoHTML(dailyWeather);
   showVisibility(currentWeather.visibility);
-  showWind(currentWeather.windSpeed)
+  showWind(currentWeather.windSpeed);
 }
 
 window.addEventListener(
