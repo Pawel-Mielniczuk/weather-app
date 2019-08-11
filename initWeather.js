@@ -44,11 +44,19 @@ function geoError(errorObj) {
  * 
  * 
  */
-async function showVisibility(weatherData) {
+function showVisibility(visibility) {
   document
-    .querySelector('.circle')
-    .setAttribute('stroke-dasharray', `${weatherData}, 100`);
-  document.querySelector('.percentage').textContent = `${weatherData.toFixed(1)}km`;
+    .querySelector('.visibility')
+    .setAttribute('stroke-dasharray', `${visibility}, 100`);
+  document.querySelector('.visibility-value').textContent = `${visibility.toFixed(1)}km`;
+};
+
+function showWind(wind) {
+  const km = wind * 1.6;
+  document
+    .querySelector('.wind')
+    .setAttribute('stroke-dasharray', `${km}, 100`);
+  document.querySelector('.wind-value').textContent = `${km.toFixed(2)}km/h`;
 };
 
 
@@ -75,6 +83,7 @@ async function showInitWeather(weatherData) {
   renderHourlyIconIntoHTML(hourlyWeather);
   renderDailyIconIntoHTML(dailyWeather);
   showVisibility(currentWeather.visibility);
+  showWind(currentWeather.windSpeed)
 }
 
 window.addEventListener(
