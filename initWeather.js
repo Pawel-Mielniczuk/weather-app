@@ -27,7 +27,7 @@ function geoError(errorObj) {
 
   switch (errorObj.code) {
     case errorObj.PERMISSION_DENIED:
-      errorMessage = 'Brak pozwolenia na znalezienie lokalicazji';
+      errorMessage = 'Brak pozwolenia na znalezienie lokalizacji';
       break;
     case errorObj.POSITION.UNAVAILABLE:
       errorMessage = 'Brak dostepu do sieci';
@@ -64,7 +64,7 @@ function showWind(wind) {
 async function getInitWeather(lat, lon) {
   const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon}?units=si`;
   const response = await fetch(url);
-  const data = await response.json();
+  const data = response.json();
 
   return data;
 }

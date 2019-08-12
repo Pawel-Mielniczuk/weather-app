@@ -14,7 +14,7 @@ async function getCurrentWeather() {
 
   //2019-08-02T21:20:32
 
-  const str = await getCurrentTime(leadingZero);
+  // const str = await getCurrentTime(leadingZero);
 
   const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon}?units=si`;
   const response = await fetch(url);
@@ -29,7 +29,7 @@ async function getCurrentWeather() {
  * @return current time in format YYYY-MM-DDTHH:MM:SS
  */
 
-function getCurrentTime(fn) {
+function getCurrentTime(setTime) {
   const time = new Date();
   const year = time.getFullYear();
   const month = time.getMonth() + 1;
@@ -38,9 +38,9 @@ function getCurrentTime(fn) {
   const minuts = time.getMinutes() + 1;
   const seconds = time.getSeconds() + 1;
 
-  return `${year}-${fn(time.getMonth() + 1)}-${fn(time.getDate())}T${fn(
+  return `${year}-${setTime(time.getMonth() + 1)}-${setTime(time.getDate())}T${setTime(
     hours
-  )}:${fn(minuts)}:${fn(seconds)}`;
+  )}:${setTime(minuts)}:${setTime(seconds)}`;
 }
 
 function leadingZero(hour) {
@@ -48,8 +48,8 @@ function leadingZero(hour) {
 }
 
 async function getLocation() {
-  let arr = [];
-  const city = await getCity();
+  // let arr = [];
+  const city = getCity();
   const response = await fetch(
     `https://cors-anywhere.herokuapp.com/https://us1.locationiq.com/v1/search.php?key=116c426fcd7312&city=${city}&format=json`
   );
@@ -58,16 +58,15 @@ async function getLocation() {
   const longitude = position[0].lon;
   const cityName = position[0].display_name;
 
-  arr[0] = latitude;
-  arr[1] = longitude;
-  arr[2] = cityName;
-  return arr;
+  // arr[0] = latitude;
+  // arr[1] = longitude;
+  // arr[2] = cityName;
+  return [latitude, longitude, cityName];
 }
 
 
 function getCity() {
-  const inputValue = document.getElementById('city').value;
-  return inputValue;
+  return document.getElementById('city').value;
 }
 
 async function printLocation() {
@@ -93,7 +92,7 @@ function checkHour() {
  * @return weather data with next seven hours
  */
 async function nextHours(arr) {
-  let indexStart = await checkHour();
+  let indexStart = checkHour();
   let indexEnd = (indexStart + 7) % 49;
 
   if (indexStart <= indexEnd) return arr.slice(indexStart, indexEnd);
@@ -145,6 +144,8 @@ function renderTimeIntoHTML(weatherData) {
     );
   });
 }
+
+
 
 function renderTempIntoHTML(weatherData) {
   const temperatureSpanElements = Array.from(
