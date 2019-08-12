@@ -48,7 +48,6 @@ function leadingZero(hour) {
 }
 
 async function getLocation() {
-  // let arr = [];
   const city = getCity();
   const response = await fetch(
     `https://cors-anywhere.herokuapp.com/https://us1.locationiq.com/v1/search.php?key=116c426fcd7312&city=${city}&format=json`
@@ -58,9 +57,6 @@ async function getLocation() {
   const longitude = position[0].lon;
   const cityName = position[0].display_name;
 
-  // arr[0] = latitude;
-  // arr[1] = longitude;
-  // arr[2] = cityName;
   return [latitude, longitude, cityName];
 }
 
