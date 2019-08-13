@@ -113,7 +113,7 @@ function convertToHour(ms) {
   const date = new Date(ms * 1000);
   const hours = date.getHours();
 
-  return hours;
+  return `${hours}:00`;
 }
 
 function convertToDays(ms) {
@@ -126,8 +126,28 @@ function convertToDays(ms) {
 function convertToDaysOfMonth(ms) {
   const date = new Date(ms * 1000);
   const daysOfMonth = date.getDate();
+  let daySuffix = '';
 
-  return daysOfMonth;
+  switch (daysOfMonth) {
+    case 1:
+    case 21:
+    case 31:
+      daySuffix = "st";
+      break;
+    case 2:
+    case 22:
+      daySuffix = "nd";
+      break;
+    case 3:
+    case 23:
+      daySuffix = "rd";
+      break;
+    default:
+      daySuffix = "th";
+      break;
+  }
+
+  return `${daysOfMonth}${daySuffix}`;
 }
 
 function renderTimeIntoHTML(weatherData) {
