@@ -12,9 +12,6 @@ async function getCurrentWeather() {
   const [lat, lon] = cords;
   printLocation();
 
-  //2019-08-02T21:20:32
-
-  // const str = await getCurrentTime(leadingZero);
 
   const url = `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${lat},${lon}?units=si`;
   const response = await fetch(url);
@@ -23,11 +20,6 @@ async function getCurrentWeather() {
   return data;
 }
 
-/**
- *
- * @param {leadingZeros function} fn
- * @return current time in format YYYY-MM-DDTHH:MM:SS
- */
 
 function getCurrentTime(setTime) {
   const time = new Date();
@@ -73,20 +65,12 @@ async function printLocation() {
   cityToPrint.textContent = data[2];
 }
 
-/**
- * @return hour
- */
 
 function checkHour() {
   const time = new Date();
   const hour = time.getHours();
 }
 
-/**
- *
- * @param {Obj with weather data} arr
- * @return weather data with next seven hours
- */
 async function nextHours(arr) {
   let indexStart = checkHour();
   let indexEnd = (indexStart + 7) % 49;
@@ -104,10 +88,6 @@ function returnWeatherTemp(data, celcius) {
   return `${data}${celcius}`;
 }
 
-/**
- *
- * @param {milliseconds from Date Obj} ms
- */
 
 function convertToHour(ms) {
   const date = new Date(ms * 1000);
